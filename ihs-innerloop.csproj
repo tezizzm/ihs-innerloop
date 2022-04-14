@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ihs_innerloop</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Steeltoe.Bootstrap.Autoconfig" Version="3.1.3" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.1.3" />
+  </ItemGroup>
+
+</Project>

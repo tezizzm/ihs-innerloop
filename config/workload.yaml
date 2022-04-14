@@ -1,0 +1,16 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: ihs-innerloop
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: ihs-innerloop
+    tanzu.app.live.view: "true"
+    tanzu.app.live.view.application.flavours: steeltoe
+    tanzu.app.live.view.application.name: ihs-innerloop
+spec:
+  source:
+    git:
+      url: github.com/tezizzm/ihs-innerloop
+      ref:
+        branch: main

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: ihs-innerloop
+  name: ihs-innerloop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ihs-innerloop
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ihs-innerloop
+        app.kubernetes.io/part-of: ihs-innerloop
+    spec:
+      containers:
+        - name: app
+          image: registry.contour.thewindyvalley.com/apps/ihs-innerloop:latest
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://0.0.0.0:8080;http://0.0.0.0:8090
+            - name: Logging__Console__FormatterName
+              value: simple
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+            - containerPort: 22
+            - containerPort: 8090
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8090
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8090
