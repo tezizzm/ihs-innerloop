@@ -1,13 +1,13 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: ihs-net
+  name: net-il
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: ihs-innerloop
+    app.kubernetes.io/part-of: net-il
     tanzu.app.live.view: "true"
     tanzu.app.live.view.application.flavours: steeltoe
-    tanzu.app.live.view.application.name: ihs-innerloop
+    tanzu.app.live.view.application.name: net-il
 spec:
   source:
     git:

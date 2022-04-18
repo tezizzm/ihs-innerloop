@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: ihs-innerloop
-  name: ihs-innerloop
+    app.kubernetes.io/name: net-il
+  name: net-il
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: ihs-innerloop
+      app.kubernetes.io/name: net-il
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: ihs-innerloop
-        app.kubernetes.io/part-of: ihs-innerloop
+        app.kubernetes.io/name: net-il
+        app.kubernetes.io/part-of: net-il
     spec:
       containers:
-        - name: ihs-innerloop
-          image: registry.contour.thewindyvalley.com/apps/ihs-innerloop
+        - name: net-il
+          image: registry.contour.thewindyvalley.com/apps/net-il
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development

@@ -15,8 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        Console.WriteLine("test");
-        Console.WriteLine("test");
+        Console.WriteLine("martez");
         return View();
     }
 
