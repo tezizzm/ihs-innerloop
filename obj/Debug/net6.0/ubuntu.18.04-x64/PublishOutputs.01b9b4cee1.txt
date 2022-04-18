@@ -1,7 +1,0 @@
-C:\tap\ihs-innerloop\bin\.buildsync\ihs-innerloop
-C:\tap\ihs-innerloop\bin\.buildsync\appsettings.Development.json
-C:\tap\ihs-innerloop\bin\.buildsync\appsettings.json
-C:\tap\ihs-innerloop\bin\.buildsync\ihs-innerloop.dll
-C:\tap\ihs-innerloop\bin\.buildsync\ihs-innerloop.deps.json
-C:\tap\ihs-innerloop\bin\.buildsync\ihs-innerloop.runtimeconfig.json
-C:\tap\ihs-innerloop\bin\.buildsync\ihs-innerloop.pdb

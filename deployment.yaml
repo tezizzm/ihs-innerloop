@@ -16,8 +16,8 @@ spec:
         app.kubernetes.io/part-of: ihs-innerloop
     spec:
       containers:
-        - name: app
-          image: registry.contour.thewindyvalley.com/apps/ihs-innerloop:latest
+        - name: ihs-innerloop
+          image: registry.contour.thewindyvalley.com/apps/ihs-innerloop
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development

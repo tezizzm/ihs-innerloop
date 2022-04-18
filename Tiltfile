@@ -1,29 +1,34 @@
-allow_k8s_contexts('gke-single-cluster')
-os.putenv ('DOCKER_BUILDKIT' , '1' )
-isWindows = True if os.name == "nt" else False
-
-name = 'registry.contour.thewindyvalley.com/apps/ihs-innerloop'
-expected_ref = "%EXPECTED_REF%" if isWindows else "$EXPECTED_REF"
-rid = "ubuntu.18.04-x64"
-configuration = "Debug"
-isWindows = True if os.name == "nt" else False
+SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='registry.contour.thewindyvalley.com/apps/ihs-innerloop')
+LOCAL_PATH = os.getenv("LOCAL_PATH", default='./')
+NAMESPACE = os.getenv("NAMESPACE", default='default')
+NAME = "ihs-innerloop"
+RID = "ubuntu.18.04-x64"
+CONFIGURATION = "Release"
 
 local_resource(
-  'live-update-build',
-  cmd= 'dotnet publish --configuration ' + configuration + ' --runtime ' + rid + ' --self-contained false --output ./bin/.buildsync',
-  deps=['./bin/' + configuration],
-  ignore=['./bin/**/' + rid]
+    'build',
+    'dotnet publish -c Release --self-contained false -o ./publish',
+    deps=['./src'],
+    ignore=['./src/obj', './src/bin'],
 )
 
-custom_build(
-        name,
-        'docker build . -f Dockerfile -t ' + expected_ref,
-        deps=["./bin/.buildsync", ".Dockerfile", "./config"],
-        live_update=[
-            sync('./bin/.buildsync', '/app'),
-            sync('./config', '/app/config'),
-        ]
-    )
+k8s_custom_deploy(
+  NAME,
+  apply_cmd="tanzu apps workload apply -f config/workload.yaml --live-update" +
+            " --local-path " + LOCAL_PATH +
+            " --source-image " + SOURCE_IMAGE +
+            " --namespace " + NAMESPACE +
+            " --yes >/dev/null" +
+            " && kubectl get workload " + NAME + " -n " + NAMESPACE + " -o yaml",
+  delete_cmd="tanzu apps workload delete " + NAME + " -n " + NAMESPACE + " --yes",
+  deps=['./publish'],
+  container_selector='workload',
+  live_update=[
+    sync('./publish', '/workspace')
+  ]
+)
 
-k8s_yaml(['deployment.yaml'])
-k8s_resource('ihs-innerloop', port_forwards=[8080,8090,22])
+k8s_resource(NAME, port_forwards=[8080,8090,22],
+            extra_pod_selectors=[{'serving.knative.dev/service': 'ihs-innerloop'}])
+
+allow_k8s_contexts('jmp-aws-lab-tap-full')
